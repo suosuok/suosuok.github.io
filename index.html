@@ -350,81 +350,66 @@
       
         <ul>
 <li><p>为什么需要内存淘汰策略</p>
-<blockquote>
-<p> 长期将Redis作为缓存使用，难免会遇到内存空间存储瓶颈，当Redis内存超出物理内存限制时，内存数据就会与磁盘产生频繁交换，使Redis性能急剧下降。</p>
-</blockquote>
+<ul>
+<li>长期将Redis作为缓存使用，难免会遇到内存空间存储瓶颈，当Redis内存超出物理内存限制时，内存数据就会与磁盘产生频繁交换，使Redis性能急剧下降。</li>
+</ul>
 </li>
 <li><p>使用配置(针对redis.conf)</p>
-<blockquote>
-<p>maxmemory 100mb (最大内存,0表示不限制)</p>
-<p>maxmemory-policy (选择策略)</p>
-</blockquote>
+<ul>
+<li>maxmemory 100mb (最大内存,0表示不限制)</li>
+<li>maxmemory-policy (选择策略)</li>
+</ul>
 </li>
 <li><p>内存淘汰策略工作流程</p>
-<blockquote>
-<p>客户端会发起需要更多内存的申请</p>
-<p>Redis检查内存使用情况，如果实际使用内存已经超出maxmemory，Redis就会根据用户配置的淘汰策略选出无用的key</p>
-<p>确认选中数据没有问题，成功执行淘汰任务</p>
-</blockquote>
+<ul>
+<li>客户端会发起需要更多内存的申请</li>
+<li>Redis检查内存使用情况，如果实际使用内存已经超出maxmemory，Redis就会根据用户配置的淘汰策略选出无用的key</li>
+<li>确认选中数据没有问题，成功执行淘汰任务</li>
+</ul>
 </li>
 <li><p>淘汰策略 </p>
-<blockquote>
-<table>
-<thead>
-<tr>
-<th>策略名</th>
-<th>描述</th>
-<th>原理</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>volatile-lru</td>
-<td>LRU</td>
-<td>从设置过期时间的数据集中挑选出最近最少使用的数据淘汰。没有设置过期时间的key不会被淘汰，这样就可以在增加内存空间的同时保证需要持久化的数据不会丢失</td>
-</tr>
-<tr>
-<td>volatile-ttl</td>
-<td>TTL(time to live)</td>
-<td>只从设置失效（expire set）的key中，选出存活时间（TTL）最短的key进行删除，用以保存新数据</td>
-</tr>
-<tr>
-<td>volatile-random</td>
-<td>随机</td>
-<td>从已设置过期时间的数据集中任意选择数据淘汰。当内存达到限制无法写入非过期时间的数据集时，可以通过该淘汰策略在主键空间中随机移除某个key</td>
-</tr>
-<tr>
-<td>allkeys-lru</td>
-<td>全体LRU</td>
-<td>从数据集中挑选最近最少使用的数据淘汰，该策略要淘汰的key面向的是全体key集合，而非过期的key集合</td>
-</tr>
-<tr>
-<td>allkeys-random</td>
-<td>全体随机</td>
-<td>从数据集中选择任意数据淘汰</td>
-</tr>
-<tr>
-<td>no-enviction</td>
-<td></td>
-<td>禁止驱逐数据，也就是当内存不足以容纳新入数据时，新写入操作就会报错，请求可以继续进行，线上任务也不能持续进行，采用no-enviction策略可以保证数据不被丢失，这也是系统默认的一种淘汰策略</td>
-</tr>
-</tbody></table>
-</blockquote>
+<ul>
+<li>volatile-lru<ul>
+<li>从设置过期时间的数据集中挑选出最近最少使用的数据淘汰。没有设置过期时间的key不会被淘汰，这样就可以在增加内存空间的同时保证需要持久化的数据不会丢失</li>
+</ul>
+</li>
+<li>volatile-ttl<ul>
+<li>只从设置失效（expire set）的key中，选出存活时间（TTL）最短的key进行删除，用以保存新数据</li>
+</ul>
+</li>
+<li>volatile-random<ul>
+<li>从已设置过期时间的数据集中任意选择数据淘汰。当内存达到限制无法写入非过期时间的数据集时，可以通过该淘汰策略在主键空间中随机移除某个key</li>
+</ul>
+</li>
+<li>allkeys-lru<ul>
+<li>从数据集中挑选最近最少使用的数据淘汰，该策略要淘汰的key面向的是全体key集合，而非过期的key集合</li>
+</ul>
+</li>
+<li>allkeys-random<ul>
+<li>从数据集中选择任意数据淘汰</li>
+</ul>
+</li>
+<li>no-enviction<ul>
+<li>禁止驱逐数据，也就是当内存不足以容纳新入数据时，新写入操作就会报错，请求可以继续进行，线上任务也不能持续进行，采用no-enviction策略可以保证数据不被丢失，这也是系统默认的一种淘汰策略</li>
+</ul>
+</li>
+</ul>
 </li>
 <li><p>LRU淘汰机制</p>
-<blockquote>
-<p>服务器配置中保存了 lru 计数器 server.lrulock，会定时（redis 定时程序 serverCorn()）更新，server.lrulock 的值是根据 server.unixtime 计算出来进行排序的，然后选择最近使用时间最久的数据进行删除。另外，从 struct redisObject 中可以发现，每一个 redis 对象都会设置相应的 lru。每一次访问数据，会更新对应redisObject.lru </p>
-<p>在Redis中，LRU算法是一个近似算法，默认情况下，Redis会随机挑选5个键，并从中选择一个最久未使用的key进行淘汰。在配置文件中，按maxmemory-samples选项进行配置，选项配置越大，消耗时间就越长，但结构也就越精准(近似非绝对)</p>
-</blockquote>
+<ul>
+<li>服务器配置中保存了 lru 计数器 server.lrulock，会定时（redis 定时程序 serverCorn()）更新，server.lrulock 的值是根据 server.unixtime 计算出来进行排序的，然后选择最近使用时间最久的数据进行删除。另外，从 struct redisObject 中可以发现，每一个 redis 对象都会设置相应的 lru。每一次访问数据，会更新对应redisObject.lru </li>
+<li>在Redis中，LRU算法是一个近似算法，默认情况下，Redis会随机挑选5个键，并从中选择一个最久未使用的key进行淘汰。在配置文件中，按maxmemory-samples选项进行配置，选项配置越大，消耗时间就越长，但结构也就越精准(近似非绝对)</li>
+</ul>
 </li>
 <li><p>TTL淘汰</p>
-<blockquote>
-<p>Redis 数据集数据结构中保存了键值对过期时间的表，即 redisDb.expires。与 LRU 数据淘汰机制类似，TTL 数据淘汰机制中会先从过期时间的表中随机挑选几个键值对，取出其中 ttl 最大的键值对淘汰。同样，TTL淘汰策略并不是面向所有过期时间的表中最快过期的键值对，而只是随机挑选的几个键值对(近似非绝对)</p>
-</blockquote>
+<ul>
+<li>Redis 数据集数据结构中保存了键值对过期时间的表，即 redisDb.expires。与 LRU 数据淘汰机制类似，TTL 数据淘汰机制中会先从过期时间的表中随机挑选几个键值对，取出其中 ttl 最大的键值对淘汰。同样，TTL淘汰策略并不是面向所有过期时间的表中最快过期的键值对，而只是随机挑选的几个键值对(近似非绝对)</li>
+</ul>
 </li>
 <li><p>随机淘汰</p>
-<blockquote>
-<p>在随机淘汰的场景下获取待删除的键值对，随机找hash桶再次hash指定位置的dictEntry(指针指向下一个即可:链表)</p>
-</blockquote>
+<ul>
+<li>在随机淘汰的场景下获取待删除的键值对，随机找hash桶再次hash指定位置的dictEntry(指针指向下一个即可:链表)</li>
+</ul>
 </li>
 </ul>
 
