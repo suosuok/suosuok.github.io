@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Hexo</title>
+  <title>高并发的理解和使用场景 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="高并发的理解 就是短时间内遇到大量操作请求，导致站点服务器&#x2F;db服务器资源被占满甚至严重时直接导致宕 衡量一个系统的好坏，除了业务外，还有就是系统的吞吐量（单位时间内处理的请求数）—–QPS（每秒钟能处理的请求数）和响应时间   高并发和多线程的关系 多线程的理解 多线程是java的特性，因为现在cpu都是多核多线程的，可以同时执行几个任务，为了提高jvm的执行效率，java提供了这种多线程的机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高并发的理解和使用场景">
+<meta property="og:url" content="http://example.com/2019/09/12/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="高并发的理解 就是短时间内遇到大量操作请求，导致站点服务器&#x2F;db服务器资源被占满甚至严重时直接导致宕 衡量一个系统的好坏，除了业务外，还有就是系统的吞吐量（单位时间内处理的请求数）—–QPS（每秒钟能处理的请求数）和响应时间   高并发和多线程的关系 多线程的理解 多线程是java的特性，因为现在cpu都是多核多线程的，可以同时执行几个任务，为了提高jvm的执行效率，java提供了这种多线程的机">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-09-12T12:52:10.000Z">
+<meta property="article:modified_time" content="2020-09-05T15:05:58.243Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -140,103 +144,208 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-高并发的理解和使用场景" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/12/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" class="archive-article-date">
-  	<time datetime="2019-09-12T13:50:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-12</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/12/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/">乐观锁和悲观锁</a>
+    <h1 class="article-title" itemprop="name">
+      高并发的理解和使用场景
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/12/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" class="archive-article-date">
+        
+        <a href="/2019/09/12/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" class="archive-article-date">
   	<time datetime="2019-09-12T12:52:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-12</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/12/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/">高并发的理解和使用场景</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>高并发的理解<ul>
+<li>就是短时间内遇到大量操作请求，导致站点服务器/db服务器资源被占满甚至严重时直接导致宕</li>
+<li>衡量一个系统的好坏，除了业务外，还有就是系统的吞吐量（单位时间内处理的请求数）—–QPS（每秒钟能处理的请求数）和响应时间</li>
+</ul>
+</li>
+<li>高并发和多线程的关系<ul>
+<li>多线程的理解<ul>
+<li>多线程是java的特性，因为现在cpu都是多核多线程的，可以同时执行几个任务，为了提高jvm的执行效率，java提供了这种多线程的机制，以增强数据处理效率</li>
+<li>多线程对应的是cpu，高并发对应的是访问请求，可以用单线程处理所有访问请求，也可以用多线程同时处理访问请求</li>
+<li>在过去单CPU时代，单任务在一个时间点只能执行单一程序。之后发展到多任务阶段，计算机能在同一时间点并行执行多任务或多进程。虽然并不是真正意义上的“同一时间点”，而是多个任务或进程共享一个CPU，并交由操作系统来完成多任务间对CPU的运行切换，以使得每个任务都有机会获得一定的时间片运行</li>
+<li>再后来发展到多线程技术，使得在一个程序内部能拥有多个线程并行执行。一个线程的执行可以被认为是一个CPU在执行该程序。当一个程序运行在多线程下，就好像有多个CPU在同时执行该程序</li>
+</ul>
+</li>
+<li>并发编程的几个要素<ul>
+<li>原子性原子，即一个不可再被分割的颗粒。在Java中原子性指的是一个或多个操作要么全部执行成功要么全部执行失败</li>
+<li>有序性程序执行的顺序按照代码的先后顺序执行。（处理器可能会对指令进行重排序）</li>
+<li>可见性当多个线程访问同一个变量时，如果其中一个线程对其作了修改，其他线程能立即获取到最新的值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>高并发的场景<ul>
+<li>一般像火车票抢票，秒杀 系统，双11或者京东618活动等这种太明显不过了，这种还是正常的业务范围，蛮好理解的，还有一种就是恶意的攻击，导致系统的某个功能近乎瘫痪，比如验证码的请求等</li>
+</ul>
+</li>
+<li>高并发难点<ul>
+<li>并发时最怕的就是对共享变量的同时访问导致脏数据的产生，所以一般会加锁：对象锁（例如：syncrinized等关键字）和 分布式锁（数据库锁，redis，zookeeper）</li>
+<li>对象锁顾名思义就是锁住当前对象–只能用在单服务器上，对于分布式系统或者单系统分布式部署时对共享资源的访问就必须使用分布式锁了，此时对象锁没法用了 </li>
+<li>像秒杀系统可以使用缓存让还有数量时都可以看到，而在开抢后得看个人运气了（网络等原因），此时使用乐观锁（共享锁）就搞定了嘛</li>
+<li>像银行的消费后更新银行卡余额，使用悲观锁（排斥锁）就可以</li>
+</ul>
+</li>
+</ul>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/Alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/Wechatpay.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2019/09/12/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/05/Redis%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" class="archive-article-date">
-  	<time datetime="2019-08-05T14:56:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-05</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/09/12/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          乐观锁和悲观锁
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/05/Redis%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Redis内存淘汰策略</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/05/Redis%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/">Redis内存淘汰策略</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -259,8 +368,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

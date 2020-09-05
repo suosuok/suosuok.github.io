@@ -142,6 +142,192 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-乐观锁和悲观锁" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/12/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/">乐观锁和悲观锁</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/12/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/" class="archive-article-date">
+  	<time datetime="2019-09-12T13:50:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>何谓悲观锁与乐观锁<ul>
+<li>乐观锁对应于生活中乐观的人总是想着事情往好的方向发展，悲观锁对应于生活中悲观的人总是想着事情往坏的方向发展。这两种人各有优缺点，不能不以场景而定说一种人好于另外一种人</li>
+</ul>
+</li>
+<li>乐观锁<ul>
+<li>总是假设最好的情况，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号机制和CAS算法实现。乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库提供的类似于write_condition机制，其实都是提供的乐观锁。在Java中java.util.concurrent.atomic包下面的原子变量类就是使用了乐观锁的一种实现方式CAS实现的</li>
+</ul>
+</li>
+<li>悲观锁<ul>
+<li>总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁（共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程）。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。Java中synchronized和ReentrantLock等独占锁就是悲观锁思想的实现</li>
+</ul>
+</li>
+<li>两种锁的使用场景<ul>
+<li>从上面对两种锁的介绍，我们知道两种锁各有优缺点，不可认为一种好于另一种，像乐观锁适用于写比较少的情况下（多读场景），即冲突真的很少发生的时候，这样可以省去了锁的开销，加大了系统的整个吞吐量。但如果是多写的情况，一般会经常产生冲突，这就会导致上层应用会不断的进行retry，这样反倒是降低了性能，所以一般多写的场景下用悲观锁就比较合适</li>
+<li>cas在多写情况下自旋：非公平锁和公平锁（队列维护）</li>
+</ul>
+</li>
+<li>CAS算法<ul>
+<li>即compare and swap（比较与交换），是一种有名的无锁算法。无锁编程，即不使用锁的情况下实现多线程之间的变量同步，也就是在没有线程被阻塞的情况下实现变量的同步，所以也叫非阻塞同步（Non-blocking Synchronization）。</li>
+<li>CAS（总读取主内存的值）</li>
+</ul>
+</li>
+<li>CAS与synchronized的使用情景<ul>
+<li>简单的来说CAS适用于写比较少的情况下（多读场景，冲突一般较少），synchronized适用于写比较多的情况下（多写场景，冲突一般较多）</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/12/%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-高并发的理解和使用场景" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/12/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/">高并发的理解和使用场景</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/12/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" class="archive-article-date">
+  	<time datetime="2019-09-12T12:52:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>高并发的理解<ul>
+<li>就是短时间内遇到大量操作请求，导致站点服务器/db服务器资源被占满甚至严重时直接导致宕</li>
+<li>衡量一个系统的好坏，除了业务外，还有就是系统的吞吐量（单位时间内处理的请求数）—–QPS（每秒钟能处理的请求数）和响应时间</li>
+</ul>
+</li>
+<li>高并发和多线程的关系<ul>
+<li>多线程的理解<ul>
+<li>多线程是java的特性，因为现在cpu都是多核多线程的，可以同时执行几个任务，为了提高jvm的执行效率，java提供了这种多线程的机制，以增强数据处理效率</li>
+<li>多线程对应的是cpu，高并发对应的是访问请求，可以用单线程处理所有访问请求，也可以用多线程同时处理访问请求</li>
+<li>在过去单CPU时代，单任务在一个时间点只能执行单一程序。之后发展到多任务阶段，计算机能在同一时间点并行执行多任务或多进程。虽然并不是真正意义上的“同一时间点”，而是多个任务或进程共享一个CPU，并交由操作系统来完成多任务间对CPU的运行切换，以使得每个任务都有机会获得一定的时间片运行</li>
+<li>再后来发展到多线程技术，使得在一个程序内部能拥有多个线程并行执行。一个线程的执行可以被认为是一个CPU在执行该程序。当一个程序运行在多线程下，就好像有多个CPU在同时执行该程序</li>
+</ul>
+</li>
+<li>并发编程的几个要素<ul>
+<li>原子性原子，即一个不可再被分割的颗粒。在Java中原子性指的是一个或多个操作要么全部执行成功要么全部执行失败</li>
+<li>有序性程序执行的顺序按照代码的先后顺序执行。（处理器可能会对指令进行重排序）</li>
+<li>可见性当多个线程访问同一个变量时，如果其中一个线程对其作了修改，其他线程能立即获取到最新的值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>高并发的场景<ul>
+<li>一般像火车票抢票，秒杀 系统，双11或者京东618活动等这种太明显不过了，这种还是正常的业务范围，蛮好理解的，还有一种就是恶意的攻击，导致系统的某个功能近乎瘫痪，比如验证码的请求等</li>
+</ul>
+</li>
+<li>高并发难点<ul>
+<li>并发时最怕的就是对共享变量的同时访问导致脏数据的产生，所以一般会加锁：对象锁（例如：syncrinized等关键字）和 分布式锁（数据库锁，redis，zookeeper）</li>
+<li>对象锁顾名思义就是锁住当前对象–只能用在单服务器上，对于分布式系统或者单系统分布式部署时对共享资源的访问就必须使用分布式锁了，此时对象锁没法用了 </li>
+<li>像秒杀系统可以使用缓存让还有数量时都可以看到，而在开抢后得看个人运气了（网络等原因），此时使用乐观锁（共享锁）就搞定了嘛</li>
+<li>像银行的消费后更新银行卡余额，使用悲观锁（排斥锁）就可以</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/12/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Redis内存淘汰策略" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
