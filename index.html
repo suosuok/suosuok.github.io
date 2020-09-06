@@ -142,6 +142,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-模拟高并发(1)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/03/%E6%A8%A1%E6%8B%9F%E9%AB%98%E5%B9%B6%E5%8F%91(1)/">模拟高并发(1)</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/03/%E6%A8%A1%E6%8B%9F%E9%AB%98%E5%B9%B6%E5%8F%91(1)/" class="archive-article-date">
+  	<time datetime="2019-12-03T15:56:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>事例<ul>
+<li>public static void access() {<ul>
+<li>if(map.containsKey(true)){<ul>
+<li>System.out.println(“访问了redis”);</li>
+</ul>
+</li>
+<li>}else {<ul>
+<li>lock.lock();</li>
+<li>if(map.containsKey(true)) {</li>
+<li>System.out.println(“访问了redis”);</li>
+<li>}else {</li>
+</ul>
+</li>
+<li>System.out.println(“访问了db”);<ul>
+<li>map.put(true, “adf”);</li>
+</ul>
+</li>
+<li>}<ul>
+<li>lock.unlock();</li>
+<li>}</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>}</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/03/%E6%A8%A1%E6%8B%9F%E9%AB%98%E5%B9%B6%E5%8F%91(1)/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-oAuth" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -180,6 +271,88 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/11/07/oAuth/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-多线程小知识点(1)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9(1)/">多线程小知识点(1)</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9(1)/" class="archive-article-date">
+  	<time datetime="2019-11-03T10:56:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>Thread.join<ul>
+<li>使用Thread的join()等待所有的子线程执行完毕，主线程再执行，thread.join()把指定的线程加入到当前线程，可以将两个交替执行的线程合并为顺序执行的线程。比如在线程B中调用了线程A的Join()方法，直到线程A执行完毕后，才会继续执行线程B</li>
+</ul>
+</li>
+<li>CountDownLatch<ul>
+<li>run()方法中调用CountDownLatch.countDown();</li>
+<li>需要子线程全部执行完再执行的主线程CountDownLatch.await(),原理：阻塞当前线程直到变量CountDownLatch为0</li>
+</ul>
+</li>
+<li>CyclicBarrier<ul>
+<li>CyclicBarrier适用于这样的情况：你希望创建一组任务，他们并行地执行工作，然后在进行的下一个步骤前等待，直至所有任务都完成(有点像join())。它使得所有的并行任务都在栅栏处列队。（先CyclicBarrier.await()的处于第一位，其他线程需等待它执行完毕）</li>
+</ul>
+</li>
+<li>countDownLatch和cyclicBarrier区别<ul>
+<li>countDownLatch只能使用一次，而CyclicBarrier方法可以使用reset()方法重置，所以CyclicBarrier方法可以能处理更为复杂的业务场景</li>
+<li>百米赛跑的比赛中若使用 countDownLatch的话冲过终点线一个人就给评委发送一个人的成绩(CountDownLatch.countDown())，10个人比赛发送10次，如果用CyclicBarrier，则只在最后一个人冲过终点线的时候发送所有人的数据，仅仅发送一次，这就是区别(到达阈值时执行最后的操作，未到达会阻塞)</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/03/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9(1)/">展开全文 >></a>
         </p>
       
 
