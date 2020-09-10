@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>CLH锁 | Hexo</title>
+  <title>Mysql索引优化及原理 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是自旋锁和互斥锁？">
+  <meta name="description" content="Mark  B+Tree 可以对 &lt;，&lt;&#x3D;，&#x3D;，&gt;，&gt;&#x3D;，BETWEEN？，IN？，以及不以通配符开始的 LIKE 使用索引。（MySQL 5.5 后）   索引的优缺点  索引的优点如下： 索引大大减小了服务器需要扫描的数据量。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CLH锁">
-<meta property="og:url" content="http://example.com/2020/01/02/CLH%E9%94%81/index.html">
+<meta property="og:title" content="Mysql索引优化及原理">
+<meta property="og:url" content="http://example.com/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="什么是自旋锁和互斥锁？">
+<meta property="og:description" content="Mark  B+Tree 可以对 &lt;，&lt;&#x3D;，&#x3D;，&gt;，&gt;&#x3D;，BETWEEN？，IN？，以及不以通配符开始的 LIKE 使用索引。（MySQL 5.5 后）   索引的优缺点  索引的优点如下： 索引大大减小了服务器需要扫描的数据量。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-02T10:56:08.000Z">
-<meta property="article:modified_time" content="2020-09-07T14:21:00.090Z">
+<meta property="article:published_time" content="2020-01-04T13:01:24.000Z">
+<meta property="article:modified_time" content="2020-09-10T15:05:34.530Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -144,20 +144,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-CLH锁" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Mysql索引分析及原理" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      CLH锁
+      Mysql索引优化及原理
     </h1>
   
 
         
-        <a href="/2020/01/02/CLH%E9%94%81/" class="archive-article-date">
-  	<time datetime="2020-01-02T10:56:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-02</time>
+        <a href="/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/" class="archive-article-date">
+  	<time datetime="2020-01-04T13:01:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-04</time>
 </a>
         
       </header>
@@ -165,25 +165,87 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li>什么是自旋锁和互斥锁？<a id="more"></a>
+<li><p>Mark</p>
 <ul>
-<li>自旋锁<ul>
-<li>自旋锁说白了也是一种互斥锁，只不过没有抢到锁的线程会一直自旋等待锁的释放，处于busy-waiting的状态，此时等待锁的线程不会进入休眠状态，而是一直忙等待浪费CPU周期。因此自旋锁适用于锁占用时间短的场合。</li>
+<li>B+Tree 可以对 &lt;，&lt;=，=，&gt;，&gt;=，BETWEEN？，IN？，以及不以通配符开始的 LIKE 使用索引。（MySQL 5.5 后）</li>
 </ul>
 </li>
-<li>互斥锁<ul>
-<li>多个线程并发竞争锁的时候，没有抢到锁的线程会进入休眠状态即sleep-waiting</li>
-<li>当锁被释放的时候，处于休眠状态的一个线程会再次获取到锁。缺点就是这一些列过程需要线程切换，需要执行很多CPU指令，同样需要时间。如果CPU执行线程切换的时间比锁占用的时间还长，那么可能还不如使用自旋锁。因此互斥锁适用于锁占用时间长的场合。</li>
+<li><p>索引的优缺点</p>
+<ul>
+<li>索引的优点如下：<ul>
+<li>索引大大减小了服务器需要扫描的数据量。<a id="more"></a></li>
+<li>索引可以帮助服务器避免排序和临时表。</li>
+<li>索引可以将随机 I/O 变成顺序 I/O。</li>
 </ul>
 </li>
-<li>差异：自旋锁(定时器时刻监听)，互斥锁(锁释放后通知，线程切换的开销)</li>
+<li>索引的缺点如下：<ul>
+<li>虽然索引大大提高了查询速度，同时却会降低更新表的速度，如对表进行 INSERT、UPDATE 和 DELETE。因为更新表时，MySQL 不仅要保存数据，还要保存索引文件。</li>
+<li>建立索引会占用磁盘空间的索引文件。一般情况这个问题不算严重，但如果你在一个大表上创建了多种组合索引，且伴随大量数据量插入，索引文件大小也会快速膨胀。</li>
+<li>如果某个数据列包含许多重复的内容，为它建立索引就没有太大的实际效果。</li>
+<li>对于非常小的表，大部分情况下简单的全表扫描更高效。</li>
 </ul>
 </li>
-<li>什么是CLH锁？<ul>
-<li>CLH锁其实就是一种是基于逻辑队列非线程饥饿的一种自旋公平锁，由于是 Craig、Landin 和 Hagersten三位大佬的发明，因此命名为CLH锁。</li>
+<li>因此应该只为最经常查询和最经常排序的数据列建立索引。（MySQL 里同一个数据表里的索引总数限制为 16 个）</li>
 </ul>
 </li>
-<li>未完待续</li>
+<li><p>预读</p>
+<ul>
+<li>磁盘读取完需要的数据后，会按顺序再多读一部分数据到内存中，这样做的理论依据是计算机科学中注明的局部性原理：<ul>
+<li>由于磁盘顺序读取的效率很高（不需要寻址时间，只需很少的旋转时间），因此对于具有局部性的程序来说，预读可以提高 I/O 效率。预读的长度一般为页（page）的整倍数。</li>
+<li>MySQL（默认使用 InnoDB 引擎），将记录按照页的方式进行管理，每页大小默认为 16K（可以修改）。</li>
+</ul>
+</li>
+<li>B-Tree 借助计算机磁盘预读机制：每次新建节点的时候，都是申请一个页的空间，所以每查找一个节点只需要一次 I/O；因为实际应用当中，节点深度会很少，所以查找效率很高。</li>
+</ul>
+</li>
+<li><p>为什么 MySQL 索引选择了 B+树而不是 B 树？</p>
+<ul>
+<li>MySQL 是关系型数据库，经常会按照区间来访问某个索引列，B+树的叶子节点间按顺序建立了链指针，加强了区间访问性，所以 B+树对索引列上的区间范围查询很友好。而 B 树每个节点的 key 和 data 在一起，无法进行区间查找。</li>
+</ul>
+</li>
+<li><p>案例</p>
+<ul>
+<li>回表查询<ul>
+<li>比如你创建了 name， age 索引 name_age_index，查询数据时使用了：select * from table where name =’陈哈哈’ and age = 26;</li>
+<li>由于附加索引中只有 name 和 age，因此命中索引后，数据库还必须回去聚集索引中查找其他数据，这就是回表，这也是你背的那条：少用 select * 的原因。</li>
+</ul>
+</li>
+<li>索引覆盖<ul>
+<li>结合回表会更好理解，比如上述 name_age_index 索引，有查询：select name， age from table where name =’陈哈哈’ and age = 26;</li>
+</ul>
+</li>
+<li>最左前缀原则<ul>
+<li>B+树的节点存储索引顺序是从左向右存储，在匹配的时候自然也要满足从左向右匹配。</li>
+<li>比如索引 abc_index：（a，b，c）是 a，b，c 三个字段的联合索引，下列 sql 执行时都无法命中索引 abc_index 的。<ul>
+<li>select * from table where c = ‘1’;</li>
+<li>select * from table where b =’1’ and c =’2’;</li>
+</ul>
+</li>
+<li>以下三种情况却会走索引：<ul>
+<li>select * from table where a = ‘1’;</li>
+<li>select * from table where a = ‘1’ and b = ‘2’;</li>
+<li>select * from table where a = ‘1’ and b = ‘2’  and c=’3’;</li>
+</ul>
+</li>
+<li>其实（a，c）也会走，但是只走 a 字段索引，不会走 c 字段。</li>
+<li>最左前缀<ul>
+<li>顾名思义，就是最左优先，上例中我们创建了 a_b_c 多列索引，相当于创建了（a）单列索引，（a，b）组合索引以及（a，b，c）组合索引。</li>
+</ul>
+</li>
+<li>因此，在创建多列索引时，要根据业务需求，where 子句中使用最频繁的一列放在最左边。</li>
+</ul>
+</li>
+<li>索引下推优化<ul>
+<li>select * from table where name like ‘陈%’ and age &gt; 26；<ul>
+<li>命中 name_age_index 联合索引，查询所有满足 name 以”陈”开头的数据， 然后回表查询所有满足的行。（先查出陈后，age可能为乱序）</li>
+<li>命中 name_age_index 联合索引，查询所有满足 name 以”陈”开头的数据，然后顺便筛出 age&gt;20 的索引，再回表查询全行数据。</li>
+</ul>
+</li>
+<li>显然第 2 种方式回表查询的行数较少，I/O 次数也会减少，这就是索引下推。所以不是所有 like 都不会命中索引。</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
       
@@ -274,7 +336,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/01/02/CLH%E9%94%81/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -288,18 +350,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/01/06/log4j2%E6%97%A5%E5%BF%97%E5%85%A8%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Mysql索引优化及原理
+          log4j2日志全解
         
       </div>
     </a>
   
   
-    <a href="/2019/12/03/%E6%A8%A1%E6%8B%9F%E9%AB%98%E5%B9%B6%E5%8F%91(1)/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">模拟高并发(1)</div>
+    <a href="/2020/01/02/CLH%E9%94%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">CLH锁</div>
       <i class="icon-circle-right"></i>
     </a>
   

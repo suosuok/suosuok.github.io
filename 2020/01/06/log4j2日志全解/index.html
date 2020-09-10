@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>CLH锁 | Hexo</title>
+  <title>log4j2日志全解 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是自旋锁和互斥锁？">
+  <meta name="description" content="常用日志框架 java.util.logging：是JDK在1.4版本中引入的Java原生日志框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CLH锁">
-<meta property="og:url" content="http://example.com/2020/01/02/CLH%E9%94%81/index.html">
+<meta property="og:title" content="log4j2日志全解">
+<meta property="og:url" content="http://example.com/2020/01/06/log4j2%E6%97%A5%E5%BF%97%E5%85%A8%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="什么是自旋锁和互斥锁？">
+<meta property="og:description" content="常用日志框架 java.util.logging：是JDK在1.4版本中引入的Java原生日志框架">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-01-02T10:56:08.000Z">
-<meta property="article:modified_time" content="2020-09-07T14:21:00.090Z">
+<meta property="article:published_time" content="2020-01-06T12:01:24.000Z">
+<meta property="article:modified_time" content="2020-09-10T15:06:41.525Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -144,20 +144,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-CLH锁" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-log4j2日志全解" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      CLH锁
+      log4j2日志全解
     </h1>
   
 
         
-        <a href="/2020/01/02/CLH%E9%94%81/" class="archive-article-date">
-  	<time datetime="2020-01-02T10:56:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-02</time>
+        <a href="/2020/01/06/log4j2%E6%97%A5%E5%BF%97%E5%85%A8%E8%A7%A3/" class="archive-article-date">
+  	<time datetime="2020-01-06T12:01:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-06</time>
 </a>
         
       </header>
@@ -165,25 +165,32 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li>什么是自旋锁和互斥锁？<a id="more"></a>
-<ul>
-<li>自旋锁<ul>
-<li>自旋锁说白了也是一种互斥锁，只不过没有抢到锁的线程会一直自旋等待锁的释放，处于busy-waiting的状态，此时等待锁的线程不会进入休眠状态，而是一直忙等待浪费CPU周期。因此自旋锁适用于锁占用时间短的场合。</li>
+<li>常用日志框架<ul>
+<li>java.util.logging：是JDK在1.4版本中引入的Java原生日志框架<a id="more"></a></li>
+<li>Log4j：Apache的一个开源项目，可以控制日志信息输送的目的地是控制台、文件、GUI组件等，可以控制每一条日志的输出格式，这些可以通过一个配置文件来灵活地进行配置，而不需要修改应用的代码。虽然已经停止维护了，但目前绝大部分企业都是用的log4j。</li>
+<li>LogBack：是Log4j的一个改良版本</li>
+<li>Log4j2：Log4j2已经不仅仅是Log4j的一个升级版本了，它从头到尾都被重写了</li>
 </ul>
 </li>
-<li>互斥锁<ul>
-<li>多个线程并发竞争锁的时候，没有抢到锁的线程会进入休眠状态即sleep-waiting</li>
-<li>当锁被释放的时候，处于休眠状态的一个线程会再次获取到锁。缺点就是这一些列过程需要线程切换，需要执行很多CPU指令，同样需要时间。如果CPU执行线程切换的时间比锁占用的时间还长，那么可能还不如使用自旋锁。因此互斥锁适用于锁占用时间长的场合。</li>
+<li>日志门面slf4j<ul>
+<li>上述介绍的是一些日志框架的实现，这里我们需要用日志门面来解决系统与日志实现框架的耦合性。SLF4J，即简单日志门面（Simple Logging Facade for Java），它不是一个真正的日志实现，而是一个抽象层（ abstraction layer），它允许你在后台使用任意一个日志实现。</li>
+<li>前面介绍的几种日志框架一样，每一种日志框架都有自己单独的API，要使用对应的框架就要使用其对应的API，这就大大的增加应用程序代码对于日志框架的耦合性。</li>
+<li>使用了slf4j后，对于应用程序来说，无论底层的日志框架如何变，应用程序不需要修改任意一行代码，就可以直接上线了。</li>
 </ul>
 </li>
-<li>差异：自旋锁(定时器时刻监听)，互斥锁(锁释放后通知，线程切换的开销)</li>
+<li>为什么选用log4j2<ul>
+<li>相比与其他的日志系统，log4j2丢数据这种情况少；disruptor技术，在多线程环境下，性能高于logback等10倍以上；利用jdk1.5并发的特性，减少了死锁的发生；</li>
+<li>log4j2优越的性能其原因在于log4j2使用了LMAX,一个无锁的线程间通信库代替了,logback和log4j之前的队列. 并发性能大大提升。</li>
 </ul>
 </li>
-<li>什么是CLH锁？<ul>
-<li>CLH锁其实就是一种是基于逻辑队列非线程饥饿的一种自旋公平锁，由于是 Craig、Landin 和 Hagersten三位大佬的发明，因此命名为CLH锁。</li>
+<li>springboot<ul>
+<li>springboot默认是用logback的日志框架的，所以需要排除logback，不然会出现jar依赖冲突的报错。</li>
 </ul>
 </li>
-<li>未完待续</li>
+<li>参考文献<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/70090008?utm_source=wechat_session&amp;utm_medium=social&amp;utm_oi=984232333343399936&amp;utm_campaign=shareopn">https://zhuanlan.zhihu.com/p/70090008?utm_source=wechat_session&amp;utm_medium=social&amp;utm_oi=984232333343399936&amp;utm_campaign=shareopn</a></li>
+</ul>
+</li>
 </ul>
 
       
@@ -274,7 +281,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/01/02/CLH%E9%94%81/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/01/06/log4j2%E6%97%A5%E5%BF%97%E5%85%A8%E8%A7%A3/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -288,18 +295,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Mysql索引优化及原理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/12/03/%E6%A8%A1%E6%8B%9F%E9%AB%98%E5%B9%B6%E5%8F%91(1)/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">模拟高并发(1)</div>
+    <a href="/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Mysql索引优化及原理</div>
       <i class="icon-circle-right"></i>
     </a>
   
