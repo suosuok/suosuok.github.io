@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>springboot+shiro+jwt+mybatis整合 | Hexo</title>
+  <title>JVM 堆体系结构及其内存调优 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="JVM 堆体系结构及其内存调优">
 <meta property="og:type" content="article">
-<meta property="og:title" content="springboot+shiro+jwt+mybatis整合">
+<meta property="og:title" content="JVM 堆体系结构及其内存调优">
 <meta property="og:url" content="http://example.com/2020/09/16/JVM%20%E5%A0%86%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8F%8A%E5%85%B6%E5%86%85%E5%AD%98%E8%B0%83%E4%BC%98/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="JVM 堆体系结构及其内存调优">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://pic3.zhimg.com/80/v2-abb889a029bf20962fdd5cbf2b259427_1440w.jpg">
 <meta property="article:published_time" content="2020-09-16T14:56:08.000Z">
-<meta property="article:modified_time" content="2020-09-16T14:09:48.032Z">
+<meta property="article:modified_time" content="2020-09-16T14:15:10.951Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
@@ -154,7 +154,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      springboot+shiro+jwt+mybatis整合
+      JVM 堆体系结构及其内存调优
     </h1>
   
 
@@ -168,7 +168,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li>JVM 堆体系结构及其内存调优<a id="more"></a>
+<li><p>JVM 堆体系结构及其内存调优</p>
+<a id="more"></a>
 <ul>
 <li>堆体系结构<ul>
 <li>一个JVM实例只存在一个堆内存，堆内存的大小是可调节的。类加载器读取类文件后，需要把类、方法、常量、变量放在堆内存中，保存所有引用类型的真实信息，以方便执行器指向，堆内存分为三个部分：年轻代、老年代、永久代。</li>
@@ -176,7 +177,8 @@
 </li>
 <li>版本异同<ul>
 <li>Java7之前，堆内存在逻辑上分为：年轻代、老年代、永久代。物理上分为：年轻代、老年代</li>
-<li>Java8：永久代 —&gt; 元空间<img src="https://pic3.zhimg.com/80/v2-abb889a029bf20962fdd5cbf2b259427_1440w.jpg" width="50%" height="50%"></li>
+<li>Java8：永久代 —&gt; 元空间</li>
+<li><img src="https://pic3.zhimg.com/80/v2-abb889a029bf20962fdd5cbf2b259427_1440w.jpg" width="50%" height="50%"></li>
 <li>对象的一生(正常小对象)<ul>
 <li>新生区是类的诞生、成长、消亡的区域。</li>
 <li>一个类在新生区产生，最后被垃圾回收器收集。新生区分为伊甸区(Eden区)和幸存者区。幸存者区分为幸存0区，幸存1区。</li>
@@ -206,8 +208,15 @@
 </li>
 </ul>
 </li>
+<li><p>[^bigObj]:大对象的含义：长字符串、数组等。在开发中应尽量避免使用大对象。因为大对象的存在会导致老年代空间提前触发【Full GC】，而【Full GC】的速度一般都会比较慢， 并且【Full GC】会导致Stop The World。</p>
+</li>
+<li><p>[^oldAlive]:每一个对象都有一个对象年龄计数器。如果Eden中的对象经过一次【Minor GC】就会进入【Survivor】中，并且计数器变成1。每当发生一次【Minor GC】后，计数器就会加1，当到达一定的程度后，该对象就会晋升到【Old】老年代中。</p>
+</li>
+<li><p>[^minorGc]:【Minor GC】（新生代GC）：发生在【Eden Space】区域的垃圾回收，因为java中的对象存在的时间比较短，因此【Minor GC】是非常频繁的，而且速度也会很快。</p>
+</li>
+<li><p>[^majorGc]:【Full GC】（老年代GC）【Major GC】：前面三个名词属于一个意思，只是不同的叫法而已。指发生在【Old Space】区域的垃圾回收，【Full GC】的过程比较慢，大概是【Minor GC】的10倍以上，而且会伴随一次Stop-The-World。</p>
+</li>
 </ul>
-<p>[^bigObj]:大对象的含义：长字符串、数组等。在开发中应尽量避免使用大对象。因为大对象的存在会导致老年代空间提前触发【Full GC】，而【Full GC】的速度一般都会比较慢， 并且【Full GC】会导致Stop The World。<br>[^oldAlive]:每一个对象都有一个对象年龄计数器。如果Eden中的对象经过一次【Minor GC】就会进入【Survivor】中，并且计数器变成1。每当发生一次【Minor GC】后，计数器就会加1，当到达一定的程度后，该对象就会晋升到【Old】老年代中。<br>[^minorGc]:【Minor GC】（新生代GC）：发生在【Eden Space】区域的垃圾回收，因为java中的对象存在的时间比较短，因此【Minor GC】是非常频繁的，而且速度也会很快。<br>[^majorGc]:【Full GC】（老年代GC）【Major GC】：前面三个名词属于一个意思，只是不同的叫法而已。指发生在【Old Space】区域的垃圾回收，【Full GC】的过程比较慢，大概是【Minor GC】的10倍以上，而且会伴随一次Stop-The-World。</p>
 
       
 
@@ -324,7 +333,7 @@
   
   
     <a href="/2020/09/16/%E8%B0%88%E8%B0%88Runtime%E7%B1%BB/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">springboot+shiro+jwt+mybatis整合</div>
+      <div class="article-nav-title">谈谈Runtime类</div>
       <i class="icon-circle-right"></i>
     </a>
   
