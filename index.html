@@ -142,19 +142,155 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-IaaS-PaaS-SaaS见解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-JVM垃圾回收器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/17/IaaS-PaaS-SaaS%E8%A7%81%E8%A7%A3/">云计算概念</a>
+      <a class="article-title" href="/2020/09/19/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/">JVM垃圾回收器</a>
     </h1>
   
 
         
-        <a href="/2020/09/17/IaaS-PaaS-SaaS%E8%A7%81%E8%A7%A3/" class="archive-article-date">
+        <a href="/2020/09/19/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/" class="archive-article-date">
+  	<time datetime="2020-09-19T15:27:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>JVM垃圾回收器<ul>
+<li>对象如何变成垃圾<ul>
+<li><img src="https://img1.sycdn.imooc.com/57063b9c00016b9610660726.png"  width="50%"></li>
+</ul>
+</li>
+<li>在上图中，有一个GC  ROOT Set区域，此区域中，下面的对象，无论通过多少个引用，只要能指向GC Roots的引用，此对象，就不会被回收</li>
+<li>GC Roots<ul>
+<li>对象不可达时，此对象就变成了垃圾</li>
+<li>包含对象<ul>
+<li>虚拟机栈(栈桢中的本地变量表)中的引用的对象</li>
+<li>方法区中的类静态属性引用的对象</li>
+<li>方法区中的常量引用的对象</li>
+<li>本地方法栈中JNI的引用的对象</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>垃圾收集算法(看书了解效率问题)<ul>
+<li>标记 - 清除算法（Mark-Sweep）<ul>
+<li><img src="https://img1.sycdn.imooc.com/570640f6000132e006500535.png" width="50%"></li>
+</ul>
+</li>
+<li>标记 - 整理算法（Mark-Compact）<ul>
+<li><img src="https://img1.sycdn.imooc.com/5706410f000166b805000378.png" width="50%"></li>
+</ul>
+</li>
+<li>复制算法<ul>
+<li><img src="https://img1.sycdn.imooc.com/570643bb000196df05770382.jpg" width="50%"></li>
+<li>浪费一半空间</li>
+</ul>
+</li>
+<li>分代收集算法<ul>
+<li>有【Eden】【S0】【S1】【Old】</li>
+<li>HotSpot虚拟机按照【Eden】：【S0】：【S1】=8:1:1的比例来配备内存</li>
+<li>首先使用【Eden】和【S0】，当回收时，将存活对象复制到【S1】中，并整理【Eden】和【S0】；以此往复。如果【S1】中的内存小于存活对象需要的内存的时候（【S1】空间不够用的时候），就借用【Old】的内存来担保。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>JVM垃圾收集器</li>
+<li><img src="https://img1.sycdn.imooc.com/5706472f00010b4405470374.jpg" width="50%">
++ Serial
+  + Serial收集器是一个单线程的收集器，但它的“单线程”的意义并不仅仅说明它只会使用一个CPU或一条收集线程去完成垃圾收集工作，更重要的是在它进行垃圾收集时，必须暂停其他所有的工作线程，直到它收集结束。Stop -The -World。
++ Serial Old
+  + Serial Old是Serial收集器的老年代版本，它同样是一个单线程收集器，使用标记－整理算法。
++ <img src="https://img1.sycdn.imooc.com/57064ae50001692c06570166.jpg" width="100%">
++ ParNew
+  + 是Serial的多线程版本。和（CMS或者Serial Old配合工作）
++ Parallel Scavenge
+  + Parallel Scavenge收集器是一个新生代收集器，它也是使用复制算法的收集器，又是并行的多线程收集器。Parallel Scavenge收集器的目标则是达到一个可控制的吞吐量（Throughput）
++ Parallel Old
+  + Parallel Old是Parallel Scavenge收集器的老年代版本，使用多线程和“标记－整理”算法
++ <img src="https://img1.sycdn.imooc.com/57064cc00001dd2506570167.jpg">
++ CMS(Concurrent Mark Sweep)
+  + CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器。目前很大一部分的Java应用集中在互联网站或者B/S系统的服务端上，这类应用尤其重视服务的响应速度，希望系统停顿时间最短，以给用户带来较好的体验。CMS收集器就非常符合这类应用的需求。
++ <img src="https://img1.sycdn.imooc.com/57064b19000126f106570174.jpg">
++ G1(Garbage First)
+  + G1（Garbage-First）是一款面向服务端应用的垃圾收集器。HotSpot开发团队赋予它的使命是未来可以替换掉JDK 1.5中发布的CMS收集器。与其他GC收集器相比，G1具备如下特点。并行与并发；分代收集；空间整合；可预测的停顿。
+  + 在G1之前的其他收集器进行收集的范围都是整个新生代或者老年代，而G1不再是这样。使用G1收集器时，Java堆的内存布局就与其他收集器有很大差别，它将整个Java堆划分为多个大小相等的独立区域（Region），虽然还保留有新生代和老年代的概念，但新生代和老年代不再是物理隔离的了，它们都是一部分Region（不需要连续）的集合。</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/09/19/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-云计算概念" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/17/%E4%BA%91%E8%AE%A1%E7%AE%97%E6%A6%82%E5%BF%B5/">云计算概念</a>
+    </h1>
+  
+
+        
+        <a href="/2020/09/17/%E4%BA%91%E8%AE%A1%E7%AE%97%E6%A6%82%E5%BF%B5/" class="archive-article-date">
   	<time datetime="2020-09-17T15:27:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-17</time>
 </a>
         
@@ -163,8 +299,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li><p>五大概念</p>
-<ul>
+<li>五大概念<ul>
 <li>On-Premises（本地部署）</li>
 <li>IaaS（基础设施即服务Infrastructure-as-a-Service）<ul>
 <li>用户：租用（购买|分配权限）云主机，用户不需要考虑网络，DNS，硬件环境方面的问题；运营商：提供网络，存储，DNS，这样服务就叫做基础设施服务。</li>
@@ -179,23 +314,20 @@
 </ul>
 </li>
 <li>Serverless<ul>
-<li>无服务，不需要服务器。站在用户的角度考虑问题，用户只需要使用云服务器即可，在云服务器所在的基础环境，软件环境都不需要用户关心</li>
+<li>无服务，不需要服务器。站在用户的角度考虑问题，用户只需要使用云服务器即可，在云服务器所在的基础环境，软件环境都不需要用户关心<br>&lt;! – more –&gt;</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>例子（不用事件不同理解如买披萨）</p>
-<ul>
+<li>例子（不用事件不同理解如买披萨）<ul>
 <li>所有原材料自己做（On-Premises）</li>
 <li>买披萨回来，自己做（IaaS）</li>
 <li>买做好的吃（外卖，但本人需提供吃的地方：PaaS）</li>
 <li>店里吃（吃的地方被提供了：SaaS）</li>
 </ul>
 </li>
-<li><p>大概就是一个不断封装的过程</p>
-</li>
-<li><p>未完待续。。。</p>
-</li>
+<li>大概就是一个不断封装的过程</li>
+<li>未完待续。。。</li>
 </ul>
 
       
@@ -220,7 +352,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/09/17/IaaS-PaaS-SaaS%E8%A7%81%E8%A7%A3/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/09/17/%E4%BA%91%E8%AE%A1%E7%AE%97%E6%A6%82%E5%BF%B5/">展开全文 >></a>
         </p>
       
 
@@ -845,91 +977,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/01/06/log4j2%E6%97%A5%E5%BF%97%E5%85%A8%E8%A7%A3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Mysql索引分析及原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/">Mysql索引优化及原理</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/" class="archive-article-date">
-  	<time datetime="2020-01-04T13:01:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><p>Mark</p>
-<ul>
-<li>B+Tree 可以对 &lt;，&lt;=，=，&gt;，&gt;=，BETWEEN？，IN？，以及不以通配符开始的 LIKE 使用索引。（MySQL 5.5 后）</li>
-</ul>
-</li>
-<li><p>索引的优缺点</p>
-<ul>
-<li>索引的优点如下：<ul>
-<li>索引大大减小了服务器需要扫描的数据量。
-        
-          <a class="article-more-a" href="/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/04/Mysql%E7%B4%A2%E5%BC%95%E5%88%86%E6%9E%90%E5%8F%8A%E5%8E%9F%E7%90%86/">展开全文 >></a>
         </p>
       
 
