@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>JVM垃圾回收器 | suosuok</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JVM垃圾回收器 对象如何变成垃圾    在上图中，有一个GC  ROOT Set区域，此区域中，下面的对象，无论通过多少个引用，只要能指向GC Roots的引用，此对象，就不会被回收 GC Roots 对象不可达时，此对象就变成了垃圾 包含对象 虚拟机栈(栈桢中的本地变量表)中的引用的对象 方法区中的类静态属性引用的对象 方法区中的常量引用的对象 本地方法栈中JNI的引用的对象     垃圾收">
+  <meta name="description" content="JVM垃圾回收器 对象如何变成垃圾    在上图中，有一个GC  ROOT Set区域，此区域中，下面的对象，无论通过多少个引用，只要能指向GC Roots的引用，此对象，就不会被回收&lt;! – more –&gt; GC Roots 对象不可达时，此对象就变成了垃圾 包含对象 虚拟机栈(栈桢中的本地变量表)中的引用的对象 方法区中的类静态属性引用的对象 方法区中的常量引用的对象 本地方法栈">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM垃圾回收器">
 <meta property="og:url" content="http://example.com/2020/09/19/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/index.html">
 <meta property="og:site_name" content="suosuok">
-<meta property="og:description" content="JVM垃圾回收器 对象如何变成垃圾    在上图中，有一个GC  ROOT Set区域，此区域中，下面的对象，无论通过多少个引用，只要能指向GC Roots的引用，此对象，就不会被回收 GC Roots 对象不可达时，此对象就变成了垃圾 包含对象 虚拟机栈(栈桢中的本地变量表)中的引用的对象 方法区中的类静态属性引用的对象 方法区中的常量引用的对象 本地方法栈中JNI的引用的对象     垃圾收">
+<meta property="og:description" content="JVM垃圾回收器 对象如何变成垃圾    在上图中，有一个GC  ROOT Set区域，此区域中，下面的对象，无论通过多少个引用，只要能指向GC Roots的引用，此对象，就不会被回收&lt;! – more –&gt; GC Roots 对象不可达时，此对象就变成了垃圾 包含对象 虚拟机栈(栈桢中的本地变量表)中的引用的对象 方法区中的类静态属性引用的对象 方法区中的常量引用的对象 本地方法栈">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img1.sycdn.imooc.com/57063b9c00016b9610660726.png">
 <meta property="og:image" content="https://img1.sycdn.imooc.com/570640f6000132e006500535.png">
@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://img1.sycdn.imooc.com/57064cc00001dd2506570167.jpg">
 <meta property="og:image" content="https://img1.sycdn.imooc.com/57064b19000126f106570174.jpg">
 <meta property="article:published_time" content="2020-09-19T15:27:37.000Z">
-<meta property="article:modified_time" content="2020-09-19T13:38:03.581Z">
+<meta property="article:modified_time" content="2020-09-19T13:44:19.059Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
@@ -180,7 +180,7 @@
 <li><img src="https://img1.sycdn.imooc.com/57063b9c00016b9610660726.png"  width="50%"></li>
 </ul>
 </li>
-<li>在上图中，有一个GC  ROOT Set区域，此区域中，下面的对象，无论通过多少个引用，只要能指向GC Roots的引用，此对象，就不会被回收</li>
+<li>在上图中，有一个GC  ROOT Set区域，此区域中，下面的对象，无论通过多少个引用，只要能指向GC Roots的引用，此对象，就不会被回收<br>&lt;! – more –&gt;</li>
 <li>GC Roots<ul>
 <li>对象不可达时，此对象就变成了垃圾</li>
 <li>包含对象<ul>
